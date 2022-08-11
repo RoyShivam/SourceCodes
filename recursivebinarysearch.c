@@ -20,7 +20,7 @@ void binarysearch(int *arr,int si,int ei,int sv)
 int main()
 {
     int arr[MAX],n=10,sv=0;
-    gensortarr(arr,n);
+    gensortarr(arr,n,30);
     printarrwithindex(arr,n);
     scanf("%d",&sv);
     binarysearch(arr,0,n-1,sv);

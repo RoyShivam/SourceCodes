@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include"conio.h"
 #define MAX 500
 void genarr(int *arr,int n,int max)
 {

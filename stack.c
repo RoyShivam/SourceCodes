@@ -1,10 +1,9 @@
 #include"mylib.c"
-#include"conio.h"
 struct stack
 {
     int capacity;
     int top;
-    int* arr;
+    int *arr;
     int isfull,isempty;
 };
 struct stack* createstack(int capacity)
@@ -26,8 +25,8 @@ void push(struct stack *s,int val)
     }
     s->top++;
     s->arr[s->top]=val;
-    s->isfull=s->top==s->capacity-1?1:0;
-    s->isempty=s->top==-1?1:0;
+    s->isfull=s->top==s->capacity-1;
+    s->isempty=0;
 }
 int pop(struct stack *s)
 {
@@ -37,8 +36,8 @@ int pop(struct stack *s)
         return INT_MIN;
     }
     int val=s->arr[s->top--];
-    s->isfull=s->top==s->capacity-1?1:0;
-    s->isempty=s->top==-1?1:0;
+    s->isfull=0;
+    s->isempty=s->top==-1;
     return val;
 }
 void displaystackstatus(struct stack *s)
