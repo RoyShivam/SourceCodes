@@ -6,7 +6,6 @@ struct queue
     int front;
     int rear;
     int *arr;
-    int isfull,isempty;
     enum type t;
 };
 struct queue* createqueue(int capacity,enum type t)
@@ -15,17 +14,23 @@ struct queue* createqueue(int capacity,enum type t)
     q->capacity=capacity;
     q->arr=malloc(sizeof(int)*capacity);
     q->rear=q->front=-1;
-    q->isempty=1;
-    q->isfull=0;
     q->t=t;
+}
+int isfull(struct queue *q)
+{
+    return q->front==0&&q->rear==q->capacity-1||q->rear==q->front-1;
+}
+int isempty(struct queue *q)
+{
+    return q->front==-1;
 }
 void displayqueuestatus(struct queue *q)
 {
     printf("front:%d\n",q->front);
     printf("rear:%d\n",q->rear);
     printf("capacity:%d\n",q->capacity);
-    printf("isempty?%s\n",q->isempty?"True":"False");
-    printf("isfull?%s\n",q->isfull?"True":"False");
+    printf("isempty?%s\n",isempty(q)?"True":"False");
+    printf("isfull?%s\n",isfull(q)?"True":"False");
     switch(q->t)
     {
         case Linear:
@@ -33,14 +38,15 @@ void displayqueuestatus(struct queue *q)
         printf("%d\n",q->arr[i]);
         return;
         case Circular:
-        if(q->rear>q->front)
+        if(isempty(q))return;
+        if(q->rear>=q->front)
         {
-            for(int i=q->front+1;i<=q->rear;i++)
+            for(int i=q->front;i<=q->rear;i++)
             printf("%d\n",q->arr[i]);
         }
         else
         {
-            for(int i=q->front+1;i<q->capacity;i++)
+            for(int i=q->front;i<q->capacity;i++)
             printf("%d\n",q->arr[i]);
             for(int i=0;i<=q->rear;i++)
             printf("%d\n",q->arr[i]);
@@ -50,48 +56,44 @@ void displayqueuestatus(struct queue *q)
 }
 void enqueue(struct queue *q,int val)
 {
-    if(q->isfull)
-    {
-        printf("queue overflow might occur!");
-        return;
-    }
-    q->isempty=0;
     switch(q->t)
     {
         case Linear:
         q->rear++;
         q->arr[q->rear]=val;
-        q->isfull=q->rear==q->capacity-1;
         break;
         case Circular:
+        if(isfull(q))
+        {
+            printf("queue overflow might occur!\n");
+            return;
+        }
+        if(q->front==-1)q->front++;
         if(q->rear==q->capacity-1)q->rear=-1;
         q->rear++;
         q->arr[q->rear]=val;
-        q->isfull=q->front==-1&&q->rear==q->capacity-1||q->rear==q->front;
         break;
     }
 }
 int dequeue(struct queue *q)
 {
     int val=INT_MIN;
-    if(q->isempty)
-    {
-        printf("queue underflow might occur!");
-        return val;
-    }
-    q->isfull=0;
     switch(q->t)
     {
         case Linear:
         q->front++;
         val=q->arr[q->front];
-        q->isempty=q->front==q->rear;
         break;
         case Circular:
-        if(q->front==q->capacity-1)q->front=-1;
-        q->front++;
+        if(isempty(q))
+        {
+            printf("queue underflow might occur!\n");
+            return val;
+        }
         val=q->arr[q->front];
-        q->isempty=q->rear==-1&&q->front==q->capacity-1||q->rear==q->front;
+        if(q->front==q->rear)q->front=q->rear=-1;
+        else if(q->front==q->capacity-1)q->front=0;
+        else q->front++;
         break;   
     }
     return val;
