@@ -158,9 +158,9 @@ void frontdequeue(struct queue *q)
     switch(q->t)
     {
         case Deque:
-        if(q->front==q->capacity-1)q->front=0;
         printf("front dequeued value:%d\n",q->arr[q->front++]);
         if(q->front==q->rear+1)q->front=q->rear=-1;
+        else if(q->front==q->capacity)q->front=0;
         return;
     }
 }
@@ -176,16 +176,7 @@ void reardequeue(struct queue *q)
         case Deque:
         printf("rear dequeued value:%d\n",q->arr[q->rear--]);
         if(q->rear==q->front-1)q->front=q->rear=-1;
+        else if(q->rear==-1)q->rear=q->capacity-1;
         return;
     }
-}
-int main()
-{
-    struct queue *q=createqueue(3,Deque);
-    frontenqueue(q,2);
-    frontenqueue(q,3);
-    display(q);
-    reardequeue(q);
-    frontdequeue(q);
-    return 0;
 }
