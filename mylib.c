@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include"conio.h"
+#include<math.h>
 #define MAX 500
 void setmatval(int *arr,int i,int j,int c,int v)
 {
@@ -16,6 +17,12 @@ void genarr(int *arr,int n,int max)
 	srand(time(0));
 	for(int i=0;i<n;i++)
 	arr[i]=rand()%max;
+}
+void gennegarr(int *arr,int n,int max)
+{
+	srand(time(0));
+	for(int i=0;i<n;i++)
+	arr[i]=(rand()%max)*(rand()%2==0?-1:1);
 }
 void genmatarr(int *arr,int r,int c,int max)
 {
@@ -58,11 +65,29 @@ void printarrwithindex(int *arr,int n)
 {
 	printf("\n");
     for(int i=0;i<n;i++)
-    printf("%d at %d\n",arr[i],i);
+    printf("%d:%d\n",arr[i],i);
 }
 void swap(int *a,int *b)
 {
     int t=*a;
     *a=*b;
     *b=t;
+}
+void swapc(char *a,char *b)
+{
+    char t=*a;
+    *a=*b;
+    *b=t;
+}
+int len(char* c)
+{
+	int len=-1;
+	while(c[++len]!='\0');
+	return len;
+}
+void revstr(char *c,int n)
+{
+	n=n-1;
+	for(int i=0;i<n/2;i++)
+	swapc(c+i,c+(n-i-1));
 }

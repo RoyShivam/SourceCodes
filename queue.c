@@ -108,9 +108,10 @@ void dequeue(struct queue *q)
         if(q->front==q->rear+1)q->front=q->rear=-1;
         return;
         case Circular:
-        if(q->front==q->capacity-1)q->front=0;
-        printf("dequeued value:%d\n",q->arr[q->front++]);
-        if(q->front==q->rear+1)q->front=q->rear=-1;
+        printf("dequeued value:%d\n",q->arr[q->front]);
+        if(q->front==q->rear)q->front=q->rear=-1;
+        else if(q->front==q->capacity-1)q->front=0;
+        else q->front++;
         return;
     }
 }
