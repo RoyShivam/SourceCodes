@@ -17,8 +17,9 @@ struct Node* createnode()
 }
 struct LL* createll(int size)
 {
-    if(size<1)return NULL;
     struct LL *ll=malloc(sizeof(struct LL));
+    ll->h=NULL;
+    if(size<1)return ll;
     struct Node* h=createnode();
     ll->h=h;
     struct Node *th=h;
@@ -205,4 +206,18 @@ void delllkey(struct LL *ll,int key)
         tn=tn->next;
     }
     printf("key value not found!");
+}
+void revll(struct LL *ll)
+{
+    struct Node *prev=NULL;
+    struct Node *curr=ll->h;
+    struct Node *n=NULL;
+    while(curr)
+    {
+        n=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=n;
+    }
+    ll->h=prev;
 }
