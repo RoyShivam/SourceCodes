@@ -9,6 +9,7 @@ double sameprob(double n)
 {
     double pd=exp((-n*(n-1))/730);
     double ps=1-pd;
+    return ps;
 }
 int perlen(double ps)
 {
