@@ -1,63 +1,83 @@
 #include"mylib.c"
-struct Node
+struct node
 {
     int data;
-    struct Node *leftNode,*rightNode;
+    struct node *leftnode,*rightnode;
 };
-struct Node* createnode(int val)
+struct node* createnode(int val)
 {
-    struct Node* t=malloc(sizeof(struct Node));
+    struct node* t=malloc(sizeof(struct node));
     t->data=val;
-    t->leftNode=t->rightNode=NULL;
+    t->leftnode=t->rightnode=NULL;
     return t;
 }
-int insertafter(struct Node *root,int valaft,int s,int val)
+int insertafter(struct node *root,int valaft,short int s,int val)
 {
     if(!root)return 0;
-    if(root->data==val)
+    if(root->data==valaft)
     {
-        if(s==-1)root->leftNode=createnode(val);
-        else root->rightNode=createnode(val);
+        if(s==-1)root->leftnode=createnode(val);
+        else root->rightnode=createnode(val);
         return 1;
     }
-    if(root->leftNode)return insertafter(root->leftNode);
-    else if(root->rightNode)return insertafter(root->rightNode);
+    if(root->leftnode&&insertafter(root->leftnode,valaft,s,val))return 1;
+    if(root->rightnode)return insertafter(root->rightnode,valaft,s,val);
     return 0;
 }
-void treelen(struct Node *root,int *l)
+void treelen(struct node *root,int *l)
 {
     if(!root)return;
     (*l)++;
-    if(root->leftNode)treelen(root->leftNode,l);
-    if(root->rightNode)treelen(root->rightNode,l);
+    if(root->leftnode)treelen(root->leftnode,l);
+    if(root->rightnode)treelen(root->rightnode,l);
 }
-void pretraverse(struct Node* root)
+void pretraverse(struct node* root)
 {
     if(!root)return;
     printf("%d\n",root->data);
-    if(root->leftNode)recrtraverse(root->leftNode);
-    if(root->rightNode)recrtraverse(root->rightNode);
+    if(root->leftnode)pretraverse(root->leftnode);
+    if(root->rightnode)pretraverse(root->rightnode);
 }
-void intraverse(struct Node *root)
+void intraverse(struct node *root)
 {
     if(!root)return;
-    if(root->leftNode)recrtraverse(root->leftNode);
+    if(root->leftnode)intraverse(root->leftnode);
     printf("%d\n",root->data);
-    if(root->rightNode)recrtraverse(root->rightNode);
+    if(root->rightnode)intraverse(root->rightnode);
 }
-void posttraverse(struct Node *root)
+void posttraverse(struct node *root)
 {
     if(!root)return;
-    if(root->leftNode)recrtraverse(root->leftNode);
-    if(root->rightNode)recrtraverse(root->rightNode);
+    if(root->leftnode)posttraverse(root->leftnode);
+    if(root->rightnode)posttraverse(root->rightnode);
     printf("%d\n",root->data);
 }
-void deltree(struct Node* root)
+void prettyprint(struct node *root,int level)
 {
     if(!root)return;
-    struct Node* ln=root->leftNode;
-    struct Node* rn=root->rightNode;
+    printf("Level-%d:%d->",level,root->data);
+    if(root->leftnode)printf("%d,",root->leftnode->data);
+    if(root->rightnode)printf("%d\n",root->rightnode->data);
+    if(root->leftnode->leftnode||root->leftnode->rightnode)prettyprint(root->leftnode,level+1);
+    if(root->rightnode->leftnode||root->rightnode->rightnode)prettyprint(root->rightnode,level+1);
+}
+void deltree(struct node* root)
+{
+    if(!root)return;
+    deltree(root->leftnode);
+    deltree(root->rightnode);
     free(root);
-    deltree(ln);
-    deltree(rn);
+}
+int main()
+{
+    struct node* tree=createnode(1);
+    insertafter(tree,1,-1,2);
+    insertafter(tree,1,1,3);
+    insertafter(tree,2,-1,4);
+    insertafter(tree,2,1,5);
+    insertafter(tree,3,-1,6);
+    insertafter(tree,3,1,7);
+    intraverse(tree);
+    deltree(tree);
+    return 0;
 }
