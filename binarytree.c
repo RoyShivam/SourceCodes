@@ -26,9 +26,8 @@ void insert(struct node *root,int data)
 	}
 	delq(q);
 }
-void deln(struct node *root)
+void deln(struct node *root,int data)
 {
-	
 }
 void pretraversal(struct node *root)
 {
@@ -72,6 +71,7 @@ int main()
 	struct node *root=createnode(1);
 	insert(root,2);
 	insert(root,3);
+	deln(root,1);
 	leveltraversal(root);
 	delt(root);
 	return 0;
