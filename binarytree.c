@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include"ll_queue.c"
 struct node
 {
 	int data;
@@ -10,12 +10,6 @@ struct node *createnode(int data)
 	n->data=data;
 	n->left=n->right=NULL;
 	return n;
-}
-struct queue
-{
-};
-void delqueue(struct queue *q)
-{
 }
 int main()
 {
