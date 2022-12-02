@@ -26,8 +26,77 @@ void insert(struct node *root,int data)
 	}
 	delq(q);
 }
-void deln(struct node *root,int data)
+void deldeepest(struct node *root,struct node *dnode)
 {
+	struct queue *q=createqueue();
+	enqueue(q,root);
+	while(!isempty(q))
+	{
+		struct node *n=(struct node*)dequeue(q);
+		if(n->left)
+		{
+			if(n->left==dnode){n->left=NULL;return;}
+			enqueue(q,n->left);
+		}
+		if(n->right)
+		{
+			if(n->right==dnode){n->right=NULL;return;}
+			enqueue(q,n->right);
+		}
+	}
+	delq(q);
+}
+void deln(struct node **root,int data)
+{
+	struct node *visitNode=NULL,*delNode=NULL,*delRootNode=NULL;
+	struct queue *q=createqueue();
+	enqueue(q,*root);
+	while(!isempty(q))
+	{
+		visitNode=(struct node*)dequeue(q);
+		if(visitNode->data==data)delNode=visitNode;
+		if(visitNode->left)
+		{
+			enqueue(q,visitNode->left);
+			if(visitNode->left->data==data)
+			{
+				delRootNode=visitNode;
+				delNode=visitNode->left;
+			}
+		}
+		if(visitNode->right)
+		{
+			enqueue(q,visitNode->right);
+			if(visitNode->right->data==data)
+			{
+				delRootNode=visitNode;
+				delNode=visitNode->right;
+			}
+		}
+	}
+	delq(q);
+	if(delNode)
+	{
+		if(!delRootNode)
+		{
+			deldeepest(*root,visitNode);
+			visitNode->left=(*root)->left;
+			visitNode->right=(*root)->right;
+			*root=visitNode;
+		}
+		else if(visitNode==delNode)
+		{
+			if(delRootNode->left&&delRootNode->left==delNode)delRootNode->left=NULL;
+			else delRootNode->right=NULL;
+		}
+		else
+		{
+			deldeepest(*root,visitNode);
+			if(delRootNode->left&&delRootNode->left==delNode)delRootNode->left=visitNode;
+			else delRootNode->right=visitNode;
+		}
+		free(delNode);
+	}
 }
 void pretraversal(struct node *root)
 {
@@ -71,7 +140,8 @@ int main()
 	struct node *root=createnode(1);
 	insert(root,2);
 	insert(root,3);
-	deln(root,1);
+	insert(root,4);
+	deln(&root,1);
 	leveltraversal(root);
 	delt(root);
 	return 0;
