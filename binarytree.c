@@ -91,6 +91,10 @@ void deln(struct node **root,int data)
 		}
 		else
 		{
+			visitNode->left=delNode->left;
+			visitNode->right=delNode->right;
+			if(delNode->left==visitNode)visitNode->left=NULL;
+			else if(delNode->right==visitNode)visitNode->right=NULL;
 			deldeepest(*root,visitNode);
 			if(delRootNode->left&&delRootNode->left==delNode)delRootNode->left=visitNode;
 			else delRootNode->right=visitNode;
@@ -134,15 +138,4 @@ void leveltraversal(struct node *root)
 		if(n->right)enqueue(q,n->right);
 	}
 	delq(q);
-}
-int main()
-{
-	struct node *root=createnode(1);
-	insert(root,2);
-	insert(root,3);
-	insert(root,4);
-	deln(&root,1);
-	leveltraversal(root);
-	delt(root);
-	return 0;
 }
