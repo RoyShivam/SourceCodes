@@ -1,5 +1,5 @@
 #include"lib.c"
-void sort012(int *arr,int n)
+void sort012_1(int *arr,int n)
 {
 	int l=0,m=0,h=n-1;
 	while(m<=h)
@@ -17,10 +17,10 @@ void sort012(int *arr,int n)
 		}
 	}
 }
-void sort012_1(int *arr,int n)
+void sort012_2(int *arr,int n)
 {
 	int l=0,h=n-1,i=0;
-	while(l<h)
+	while(i<=h)
 	{
 		if(arr[i]==0)
 		{
@@ -39,7 +39,7 @@ void sort012_1(int *arr,int n)
 int main()
 {
 	int arr[5]={0,2,2,1,0},n=5;
-	sort012_1(arr,n);
+	sort012_2(arr,n);
 	printarr(arr,n);
 	return 0;
 }
