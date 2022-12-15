@@ -11,17 +11,6 @@ int iter_search(int *arr,int s,int e,int sv)
 	}
 	return -1;
 }
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-int recur_search(int *arr,int s,int e,int sv)
-{
-	if(s>e)return -1;
-	return -1;
-}
-=======
->>>>>>> Stashed changes
-//recursive
 int recur_search(int *arr,int s,int e,int sv)
 {
 	if(s>e)return -1;
@@ -30,11 +19,6 @@ int recur_search(int *arr,int s,int e,int sv)
 	else if(sv>arr[m])return recur_search(arr,m+1,e,sv);
 	else return recur_search(arr,s,m-1,sv);
 }
-//searches the middle element within a sorted list.
-<<<<<<< Updated upstream
-=======
->>>>>>> 517248f9c574e8c7bd0fccfcf970ca0c4e88c147
->>>>>>> Stashed changes
 int main()
 {
 	int n=6;
