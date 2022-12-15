@@ -1,7 +1,7 @@
 #include"lib.c"
 void sort012(int *arr,int n)
 {
-	int i=0,l=0,m=0,h=n-1;
+	int l=0,m=0,h=n-1;
 	while(m<=h)
 	{
 		if(arr[m]==0)
@@ -17,10 +17,29 @@ void sort012(int *arr,int n)
 		}
 	}
 }
+void sort012_1(int *arr,int n)
+{
+	int l=0,h=n-1,i=0;
+	while(l<h)
+	{
+		if(arr[i]==0)
+		{
+			swap(arr+l,arr+i);
+			l++;
+			i++;
+		}
+		else if(arr[i]==2)
+		{
+			swap(arr+h,arr+i);
+			h--;
+		}
+		else i++;
+	}
+}
 int main()
 {
 	int arr[5]={0,2,2,1,0},n=5;
-	sort012(arr,n);
+	sort012_1(arr,n);
 	printarr(arr,n);
 	return 0;
 }
