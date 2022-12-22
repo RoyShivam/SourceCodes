@@ -19,7 +19,7 @@ int findroot(float x,float *r,float e,int ic)
 			return 1;
 		}
 		x=x-f(x)/df(x);
-		ic++;
+		i++;
 	}
 	return 0;
 }
